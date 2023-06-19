@@ -1,4 +1,4 @@
-**# Mars Rover Code**
+# Mars Rover Code
 
 This is a Kotlin code implementation of a Mars Rover simulation. It allows you to input the size of the rectangular surface, initial positions, orientations, and instructions for multiple robots. The robots move on the surface according to the provided instructions, and their final positions and statuses (LOST or not) are displayed.
 
