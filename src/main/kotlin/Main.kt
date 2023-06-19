@@ -2,9 +2,14 @@ import java.util.Scanner
 
 fun main(args: Array<String>) {
 
+    //For entering input through command line and reading it
     val scanner = Scanner(System.`in`)
 
+
+    //initialising the right-handed coordinates mentioning the rectangular surface
     var upperRightCoordinates: List<Int>? = null
+
+    //validating the user input for upperRightCoordinates  and the format
     while (upperRightCoordinates == null) {
         println("Please enter the upper-right coordinates of the rectangular world (format: X Y):")
         val input = scanner.nextLine()
@@ -23,9 +28,13 @@ fun main(args: Array<String>) {
         }
     }
 
+
+    //initialising the inputs for robots
     val robotInputs: MutableList<RobotInput> = mutableListOf()
+    //initialing a flag for checking if the user want to enter more robots
     var doneEnteringRobots = false
 
+    //validations for robots initial position in the specified format
     while (!doneEnteringRobots) {
         println("Please enter the robot's initial position (format: X Y Orientation):")
         val positionInput = scanner.nextLine()
@@ -38,6 +47,8 @@ fun main(args: Array<String>) {
                 val orientation = position[2].toCharArray()
                 if (orientation[0] in listOf('N', 'S', 'E', 'W','n','s','e','w')) {
                     var instructions: String? = null
+
+                    //validations for robots instructions in the specified format
                     while (instructions == null) {
                         println("Please enter the robot's instructions:")
                         val instructionsInput = scanner.nextLine()
@@ -49,6 +60,8 @@ fun main(args: Array<String>) {
                             continue
                         }
                     }
+
+                    //initialising robot inputs with a list
                     val robotInput = RobotInput(listOf(x, y), orientation[0], instructions)
                     robotInputs.add(robotInput)
                 } else {
@@ -63,7 +76,7 @@ fun main(args: Array<String>) {
             println("Invalid format. Please enter the position as 'X Y Orientation'.")
             continue
         }
-
+//checking if the user want to enter additional robots or not
         println("Do you want to enter another robot? (Y/N)")
         val continueInput = scanner.nextLine()
         doneEnteringRobots = continueInput.equals("N", ignoreCase = true)
@@ -103,12 +116,17 @@ fun main(args: Array<String>) {
     }
 
 }
+
+//data classes for robotonput , position and robot
 data class RobotInput(val position: List<Int>, val orientation: Char, val instructions: String)
 
 data class Position(val x: Int, val y: Int)
 data class Robot(var position: Position, var orientation: Char, var lost: Boolean)
 
+
+//class for the entire logic having  all the methods and functionality
 class MarsSurface(private val upperRight: Position) {
+    //initialising the scent
     private val scents = mutableSetOf<Position>()
 
     //function to move robot according to the instruction
@@ -153,7 +171,7 @@ class MarsSurface(private val upperRight: Position) {
             'W' -> Position(robot.position.x - 1, robot.position.y)
             else -> robot.position
         }
-
+        //checking if the reposition is within the surface and remembering the scent
         if (isWithinSurface(newPosition)) {
             robot.position = newPosition
         } else {
